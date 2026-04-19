@@ -34,7 +34,6 @@
   body {
     display: flex;
     min-height: 100vh;
-    /* CORREGIDO: overflow-x oculto pero scroll vertical libre */
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -46,7 +45,7 @@
     background: var(--taco-carbon);
     display: flex;
     flex-direction: column;
-    position: sticky;       /* se queda fija mientras haces scroll */
+    position: sticky;
     top: 0;
     height: 100vh;
     flex-shrink: 0;
@@ -122,14 +121,37 @@
   .horario-badge {
     background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.3);
     border-radius: 10px; padding: 10px 14px; font-size: 12px; color: #E74C3C;
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+  }
+
+  .estado-badge {
+    border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px; letter-spacing: 0.5px;
+  }
+  .estado-badge.abierto {
+    background: rgba(37,211,102,0.15); border: 1px solid rgba(37,211,102,0.35);
+    color: #25D366;
+  }
+  .estado-badge.cerrado {
+    background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.3);
+    color: #E74C3C;
+  }
+  .estado-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .estado-badge.abierto .estado-dot { background: #25D366; box-shadow: 0 0 6px #25D366; animation: pulse-green 2s ease-in-out infinite; }
+  .estado-badge.cerrado .estado-dot { background: #E74C3C; }
+
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 4px #25D366; }
+    50%       { box-shadow: 0 0 10px #25D366; }
   }
 
   /* ─── MAIN CONTENT ────────────────────────────────────────── */
   .main {
     flex: 1;
-    min-width: 0;             /* evita que el flex hijo desborde */
-    overflow-y: auto;         /* scroll interno del main */
+    min-width: 0;
+    overflow-y: auto;
     position: relative;
   }
 
@@ -149,11 +171,10 @@
 
   .page.active { display: block; }
 
-  /* La página de pedidos tiene layout especial */
   #page-pedidos.active {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 0px); /* ocupa toda la altura visible */
+    min-height: calc(100vh - 0px);
   }
 
   @keyframes fadeUp {
@@ -246,37 +267,29 @@
   }
 
   /* ─── PEDIDO LAYOUT ───────────────────────────────────────── */
-  /* El contenedor de pedidos: dos columnas con alturas iguales   */
   .pedido-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 28px;
     flex: 1;
-    /* CORREGIDO: usar min-height en lugar de height fija */
     min-height: 500px;
   }
 
-  /* Columna izquierda — sólo el formulario, sin scroll forzado */
-  .pedido-col-left {
-    /* contenido estático, no necesita scroll */
-  }
+  .pedido-col-left { }
 
-  /* Columna derecha — carrito + total + wa */
   .pedido-col-right {
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
 
-  /* La card del carrito — crece para llenar el espacio disponible */
   .carrito-card {
     background: var(--taco-carbon); border: 1px solid rgba(230,126,34,0.2);
     border-radius: 20px; padding: 22px 24px;
     display: flex; flex-direction: column;
     flex: 1;
-    /* CORREGIDO: altura mínima razonable en lugar de depender de flex height */
     min-height: 200px;
-    max-height: 420px;   /* impide que crezca infinito y empuje los botones */
+    max-height: 420px;
     overflow: hidden;
   }
 
@@ -285,7 +298,6 @@
     margin-bottom: 14px; flex-shrink: 0;
   }
 
-  /* Lista del carrito: scroll interno */
   #carritoLista {
     flex: 1; overflow-y: auto;
     display: flex; flex-direction: column; gap: 8px;
@@ -295,7 +307,6 @@
   #carritoLista::-webkit-scrollbar { width: 3px; }
   #carritoLista::-webkit-scrollbar-thumb { background: rgba(230,126,34,0.25); border-radius: 2px; }
 
-  /* Total + WhatsApp — siempre visible debajo del carrito */
   .pedido-bottom {
     flex-shrink: 0;
     display: flex; flex-direction: column; gap: 12px;
@@ -329,7 +340,6 @@
   .form-select option   { background: #2C1810; color: #F5EDD6; }
   .form-select optgroup { background: #1A0A00; color: #E67E22; font-style: normal; font-weight: 700; }
 
-  /* Queso toggle */
   .queso-toggle {
     display: flex; align-items: center; gap: 14px;
     padding: 14px 18px;
@@ -355,7 +365,6 @@
   .queso-label { font-size: 14px; font-weight: 500; color: var(--taco-texto); }
   .queso-extra { font-size: 13px; color: var(--taco-amarillo); margin-left: auto; font-weight: 600; }
 
-  /* Cantidad */
   .cantidad-row {
     display: flex; align-items: center;
     background: rgba(255,255,255,0.05);
@@ -380,7 +389,6 @@
     display: flex; align-items: center; justify-content: center;
   }
 
-  /* Botones */
   .calcular-btn {
     width: 100%;
     background: linear-gradient(135deg, var(--taco-rojo), var(--taco-naranja));
@@ -392,7 +400,6 @@
   .calcular-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(192,57,43,0.4); }
   .calcular-btn:active { transform: scale(0.98); }
 
-  /* Total row */
   .total-row {
     background: var(--taco-carbon); border: 1px solid rgba(230,126,34,0.2);
     border-radius: 16px; padding: 16px 22px;
@@ -408,7 +415,6 @@
   }
   .total-row-sub { font-size: 12px; color: var(--taco-muted); margin-top: 3px; }
 
-  /* WhatsApp */
   .whatsapp-btn {
     width: 100%;
     background: linear-gradient(135deg, #128C7E, #25D366);
@@ -444,7 +450,6 @@
     letter-spacing: 1px; text-transform: uppercase;
   }
 
-  /* Carrito item */
   .carrito-item {
     display: flex; align-items: center; justify-content: space-between;
     background: rgba(255,255,255,0.04); border: 1px solid rgba(230,126,34,0.1);
@@ -472,6 +477,39 @@
   .info-title { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--taco-muted); margin-bottom: 6px; }
   .info-value { font-size: 22px; font-weight: 600; color: var(--taco-crema); }
   .info-sub   { font-size: 13px; color: var(--taco-muted); margin-top: 3px; }
+
+  /* Transferencia card */
+  .transferencia-card {
+    grid-column: 1 / -1;
+    background: var(--taco-carbon); border: 1px solid rgba(37,211,102,0.25);
+    border-radius: 18px; padding: 28px;
+  }
+  .transferencia-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+  }
+  .transferencia-titulo {
+    font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+    color: var(--taco-crema);
+  }
+  .transferencia-badge {
+    background: rgba(37,211,102,0.15); border: 1px solid rgba(37,211,102,0.3);
+    border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700;
+    color: #25D366; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .transferencia-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .transferencia-item {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(230,126,34,0.1);
+    border-radius: 12px; padding: 16px 18px;
+  }
+  .transferencia-item-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--taco-muted); margin-bottom: 6px;
+  }
+  .transferencia-item-value {
+    font-size: 16px; font-weight: 600; color: var(--taco-crema);
+  }
 
   .maps-card {
     grid-column: 1 / -1; background: var(--taco-carbon);
@@ -550,6 +588,8 @@
     .carrito-card { max-height: 300px; }
 
     .contacto-grid { grid-template-columns: 1fr; }
+    .transferencia-grid { grid-template-columns: 1fr; }
+    .transferencia-card { grid-column: 1; }
 
     .page-title { font-size: 32px; }
   }
@@ -591,7 +631,11 @@
   </nav>
 
   <div class="sidebar-footer">
-    <div class="horario-badge">🕗 8:00 AM — 8:00 PM</div>
+    <div class="horario-badge">🕗 10:00 AM — 8:00 PM · Lun–Sáb</div>
+    <div class="estado-badge" id="estadoBadge">
+      <div class="estado-dot"></div>
+      <span id="estadoTexto">Cargando...</span>
+    </div>
   </div>
 </aside>
 
@@ -702,6 +746,17 @@
           <div class="precio-row"><span class="nombre">Champiñones</span><span class="precio">$30</span></div>
         </div>
       </div>
+
+      <!-- NUEVA CARD: Refrescos -->
+      <div class="menu-card">
+        <div class="menu-card-header">
+          <div><div class="menu-card-emoji">🥤</div><div class="menu-card-title">Refrescos</div></div>
+          <button class="menu-toggle-btn" onclick="toggleMenu('refrescos', this)">Ver precios</button>
+        </div>
+        <div class="menu-card-body" id="refrescos">
+          <div class="precio-row"><span class="nombre">Refresco</span><span class="precio">$25</span></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -760,6 +815,9 @@
               <option value="30" data-queso="0">Torta Pollo — $30</option>
               <option value="35" data-queso="0">Torta Carne — $35</option>
               <option value="30" data-queso="0">Torta Champiñones — $30</option>
+            </optgroup>
+            <optgroup label="🥤 Refrescos">
+              <option value="25" data-queso="0">Refresco — $25</option>
             </optgroup>
           </select>
 
@@ -841,15 +899,38 @@
       <div class="info-card">
         <span class="info-icon">📱</span>
         <div class="info-title">Teléfono / WhatsApp</div>
-        <div class="info-value">+52 564 151 03 28</div>
+        <div class="info-value">55 8454 8146</div>
         <div class="info-sub">Llamadas y WhatsApp</div>
       </div>
 
       <div class="info-card">
         <span class="info-icon">🕒</span>
         <div class="info-title">Horario</div>
-        <div class="info-value">8 AM — 8 PM</div>
-        <div class="info-sub">Todos los días</div>
+        <div class="info-value">10 AM — 8 PM</div>
+        <div class="info-sub">Lunes a Sábado · Domingos cerrado</div>
+      </div>
+
+      <!-- Transferencias card -->
+      <div class="transferencia-card">
+        <div class="transferencia-header">
+          <span style="font-size:26px;">🏦</span>
+          <div class="transferencia-titulo">Aceptamos Transferencias</div>
+          <div class="transferencia-badge">HSBC</div>
+        </div>
+        <div class="transferencia-grid">
+          <div class="transferencia-item">
+            <div class="transferencia-item-label">Número de cuenta</div>
+            <div class="transferencia-item-value">4213 1661 9502 5444</div>
+          </div>
+          <div class="transferencia-item">
+            <div class="transferencia-item-label">Banco</div>
+            <div class="transferencia-item-value">HSBC</div>
+          </div>
+          <div class="transferencia-item">
+            <div class="transferencia-item-label">Titular</div>
+            <div class="transferencia-item-value">Ismael Espinoza Ortiz</div>
+          </div>
+        </div>
       </div>
 
       <div class="maps-card">
@@ -871,14 +952,36 @@
 
 <script>
   /* ═══════════════════════════════════════════════════════════
-     NAVEGACIÓN — CORREGIDO: ya no depende de event.currentTarget
+     ESTADO ABIERTO/CERRADO
+     Horario: 10am–8pm, Lunes a Sábado (0=Dom, 6=Sáb)
+  ═══════════════════════════════════════════════════════════ */
+  function actualizarEstado() {
+    var ahora = new Date();
+    var dia   = ahora.getDay();   // 0=Dom, 1=Lun ... 6=Sáb
+    var hora  = ahora.getHours();
+    var min   = ahora.getMinutes();
+    var badge = document.getElementById('estadoBadge');
+    var texto = document.getElementById('estadoTexto');
+
+    var esDomingo = (dia === 0);
+    var enHorario = (hora >= 10 && (hora < 20 || (hora === 20 && min === 0)));
+    var abierto   = !esDomingo && enHorario;
+
+    badge.className = 'estado-badge ' + (abierto ? 'abierto' : 'cerrado');
+    texto.textContent = abierto ? 'Abierto ahora' : (esDomingo ? 'Cerrado — Domingos no abrimos' : 'Cerrado por hoy');
+  }
+
+  actualizarEstado();
+  setInterval(actualizarEstado, 60000); // actualiza cada minuto
+
+  /* ═══════════════════════════════════════════════════════════
+     NAVEGACIÓN
   ═══════════════════════════════════════════════════════════ */
   function showPage(id, el) {
     document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
     document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
     document.getElementById('page-' + id).classList.add('active');
     if (el) el.classList.add('active');
-    // Scroll al inicio del main al cambiar de página
     var main = document.querySelector('.main');
     if (main) main.scrollTop = 0;
   }
@@ -895,7 +998,7 @@
   ═══════════════════════════════════════════════════════════ */
   var carrito = [];
   var cantidad = 1;
-  var WA_NUMBER = '525641510328';
+  var WA_NUMBER = '5255845481446'; // 55 8454 8146 con código México
 
   function actualizarQueso() {
     var sel = document.getElementById('comida');
